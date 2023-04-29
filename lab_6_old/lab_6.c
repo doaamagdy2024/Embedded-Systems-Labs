@@ -1,0 +1,103 @@
+//req #1
+/* Project name:
+     Led_Blinking (The simplest simple example)
+ * Req description
+       It is required to make the LEDs of PORTs D and E blink every 0.5 second (Toggle the LEDs
+       every 0. 5 second).
+  Hints:
+        Use Delay_ms(milliseconds);
+        Don't forget all board specific switches for LEDs and Buttons.
+ * NOTES:
+     - Turn ON PORTD, PORTE, LEDs at SW4 and SW5. (board specific).  no SW15 in slides
+ */
+
+void main() {
+  GPIO_Digital_Output(&GPIOD_BASE, _GPIO_PINMASK_ALL); // Set PORTD as digital output
+  GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_ALL); // Set PORTE as digital output
+
+  GPIOD_ODR = 0;
+  GPIOE_ODR = 0;
+
+  while(1) {
+    GPIOD_ODR = ~GPIOD_ODR; // Toggle PORTD
+    GPIOE_ODR = ~GPIOE_ODR; // Toggle PORTE
+
+    Delay_ms(500);
+  }
+}
+
+
+//req #2
+/*
+ * Req description
+       It is required to make the LEDs of PORTs D and E turn on row by row every 100ms then
+       after they are all on make them turn off row by row every 100ms and repeat the process for
+       infinity.
+ * Hints:
+      Try to recognize the pattern
+ * NOTES:
+     - Turn ON PORTD, PORTE, LEDs at SW4 and SW5. (board specific).  no but SW15 in slides
+ */
+
+void main() {
+  GPIO_Digital_Output(&GPIOD_BASE, _GPIO_PINMASK_ALL); // Set PORTD as digital output
+  GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_ALL); // Set PORTE as digital output
+
+  GPIOD_ODR = 0;
+  GPIOE_ODR = 0;
+
+  while(1) {
+    for(int i = 0; i < 16; i=i+4)
+    {
+       GPIOD_ODR |= (1<<i) | (1<<(i+1)) | (1<<(i+2)) | (1<<(i+3));
+       GPIOE_ODR |= (1<<i) | (1<<(i+1)) | (1<<(i+2)) | (1<<(i+3));
+       Delay_ms(100);
+    }
+    for(int i = 0; i < 16; i=i+4)
+    {
+       GPIOD_ODR |= (0<<i) | (0<<(i+1)) | (0<<(i+2)) | (0<<(i+3));
+       GPIOE_ODR |= (0<<i) | (0<<(i+1)) | (0<<(i+2)) | (0<<(i+3));
+       Delay_ms(100);
+    }
+
+  }
+}
+
+//req #3
+/*
+ * Req description
+       It is required to use the pins PD0, PD1, PD2, PD3 as a binary counter from 0 to 15.
+       Configure PB0 and PB1 as input pins. PB0 is used as incrementer and PB1 is a
+       decrementer. When the counter achieves 15 then PB0 will do nothing. When the counter
+       achieves 0 then PB1 will do nothing. The transition must happen on the rising edge of the
+       push buttons.
+ * NOTES:
+     - Turn ON PORTD, PORTE, LEDs at SW4 and SW5. (board specific).  no but SW15 in slides
+ */
+
+void main() {
+  GPIO_Digital_input(&GPIOB_BASE, _GPIO_PINMASK_0 | _GPIO_PINMASK_1);
+  GPIO_Digital_Output(&GPIOD_BASE, _GPIO_PINMASK_0 | _GPIO_PINMASK_1 | _GPIO_PINMASK_2 | _GPIO_PINMASK_3);
+
+  GPIOD_ODR = 0;
+  GPIOB_ODR = 0;
+
+  uint8_t counter = 0;
+
+  while(1) {
+    if(counter < 15 && Button(&GPIOB_IDR, 0, 1, 1))
+    {
+       counter = counter + 1;
+       GPIOD_ODR = counter;
+    }
+    else if(counter > 0 && Button(&GPIOB_IDR, 1, 1, 1))
+    {
+        counter = counter - 1;
+        GPIOD_ODR = counter;
+    }
+
+     // Wait for rising edge of push buttons before checking again
+     while();
+
+  }
+}

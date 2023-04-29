@@ -1,0 +1,15 @@
+0	1	mikroCARM.exe -MSF -DBG -pSTM32F407VG -BIN -LHF -DL -SSA -O11111114 -fo16 -N"D:\Academic_college\Third_Year\Second_Term\Embeded_Systems\labs\Repo\Embedded-Systems-Labs\lab_6\lab_6.mcpar" -SP"E:\microC_for_arm\mikroC PRO for ARM\Defs\" -SP"E:\microC_for_arm\mikroC PRO for ARM\Uses\ST M4\" -SP"D:\Academic_college\Third_Year\Second_Term\Embeded_Systems\labs\Repo\Embedded-Systems-Labs\lab_6\" -IP"E:\microC_for_arm\mikroC PRO for ARM\Uses\ST M4\" "lab_6.c" "__Lib_Math.emcl" "__Lib_MathDouble.emcl" "__Lib_Delays.emcl" "__Lib_System_4XX.emcl" "__Lib_GPIO_32F4xx_Defs.emcl" "__Lib_GPIO_32F4xx.emcl"	 
+diagnostics: 0	122	Compilation Started	lab_6.c
+error: 42	393	'main' Identifier redefined	lab_6.c
+error: 50	315	Invalid expression	lab_6.c
+error: 50	402	; expected, but 'int' found	lab_6.c
+error: 50	324	Undeclared identifier 'i' in expression	lab_6.c
+error: 50	324	Undeclared identifier 'i' in expression	lab_6.c
+error: 50	425	')' expected, but ';' found	lab_6.c
+error: 50	324	Undeclared identifier 'i' in expression	lab_6.c
+error: 50	324	Undeclared identifier 'i' in expression	lab_6.c
+error: 50	402	; expected, but ')' found	lab_6.c
+error: 52	424	'}' expected ';' found	lab_6.c
+error: 55	424	'}' expected '}' found	lab_6.c
+error: 61	312	Internal error ''	lab_6.c
+error: 0	102	Finished (with errors): 25 Mar 2023, 23:14:37	lab_6.mcpar
