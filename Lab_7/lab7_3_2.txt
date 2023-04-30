@@ -1,0 +1,92 @@
+/*
+req #2
+It is required to fade PE14 LED ( and hence the Buzzer).
+Use timer 1 to output a 3.8 kHz PWM signal with a duty ration that goes from 0 to 100%
+then from 100% to zero and so on.
+Hint:
+Use Delay_us(time_in_microseconds) in your loop.
+
+*/
+unsigned int period = 0;  // variable defenition must be at the beg. of the code
+int decrease = 0;
+int counter = 0;
+int dutyCycle = 0;
+void main(){
+
+
+// first we need to configure the GPIO pins
+//GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_14);
+
+period = PWM_TIM4_Init(4000); // initializes timer 1 in PWM mode with 3.8 kHz frequency
+
+
+
+
+while(1){
+
+
+if(counter == 0)
+{
+    PWM_TIM4_Set_Duty(dutyCycle, _PWM_NON_INVERTED, _PWM_CHANNEL1);
+     PWM_TIM4_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM4_CH1_PD12);
+
+}
+else if(counter == 1){
+//PWM_TIM4_Stop(_PWM_CHANNEL1);
+
+PWM_TIM4_Set_Duty(dutyCycle, _PWM_NON_INVERTED, _PWM_CHANNEL2);
+ PWM_TIM4_Start(_PWM_CHANNEL2, &_GPIO_MODULE_TIM4_CH2_PD13);
+
+}
+else if (counter == 2)
+{
+
+PWM_TIM4_Set_Duty(dutyCycle, _PWM_NON_INVERTED, _PWM_CHANNEL3);
+ PWM_TIM4_Start(_PWM_CHANNEL3, &_GPIO_MODULE_TIM4_CH3_PD14);
+
+}
+else{
+PWM_TIM4_Set_Duty(dutyCycle, _PWM_NON_INVERTED, _PWM_CHANNEL4);
+ PWM_TIM4_Start(_PWM_CHANNEL4, &_GPIO_MODULE_TIM4_CH4_PD15);
+
+}
+if(dutyCycle == period) {
+    //decrease = 1;
+    counter = counter + 1;
+    if(counter == 4)
+    {          counter = 0;
+             decrease = 1;
+    }
+    else
+        dutyCycle = 0;
+
+}
+if(dutyCycle == 0)
+{   counter = counter + 1;
+    if(counter == 4)
+    {
+     counter = 0;
+     decrease = 0;
+    }
+    else{
+         dutyCycle = period;
+    }
+
+}
+if(decrease)
+{
+    dutyCycle = dutyCycle - 1;
+}
+else{
+    dutyCycle = dutyCycle + 1;
+}
+
+// Delay_us(1);  // 50 ms or what ?????
+
+
+
+}
+
+// enable the buzzer from the board
+
+}
